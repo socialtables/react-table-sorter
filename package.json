@@ -1,0 +1,23 @@
+{
+  "name": "react-table-sorter",
+  "version": "0.0.0",
+  "description": "A demo that implements a sortable table component using [Facebook's React](http://facebook.github.io/react/).",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "~1.20.1"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/socialtables/react-table-sorter.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/socialtables/react-table-sorter/issues"
+  },
+  "homepage": "https://github.com/socialtables/react-table-sorter"
+}
