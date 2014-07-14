@@ -69,7 +69,6 @@ var TableSorter = module.exports = React.createClass({
       if (filterText.length > 0) { 
         operandMatch = operandRegex.exec(filterText);
         if (operandMatch && operandMatch.length == 3) {
-          //filters[column] = Function.apply(null, ["x", "return x " + operandMatch[1] + " " + operandMatch[2]]);
           filters[column] = function(match) { return function(x) { return operators[match[1]](x, match[2]); }; }(operandMatch); 
         } else {
           filters[column] = function(x) {
@@ -85,6 +84,7 @@ var TableSorter = module.exports = React.createClass({
       }, this);
     }, this);
 
+    // TODO: items with custom defined links in the data do not filter/sort
     var sortedItems = _.sortBy(filteredItems, this.state.sort.column);
     if (this.state.sort.order === "desc") sortedItems.reverse();
 
@@ -96,7 +96,17 @@ var TableSorter = module.exports = React.createClass({
 
     var cell = function(x) {
       return columnNames.map(function(c) {
-        return <td>{x[c]}</td>;
+        //custom link defined in data
+        if (typeof x[c] == "object" && x[c] !== null && x[c].text !== null){
+          return <td><a href={x[c].link}>{x[c].text}</a></td>;
+        // link defined in config for entire column
+        } else if (this.props.config.columns[c].link) {
+         var link = this.props.config.columns[c].link.replace("{cell}", x[c]);
+          return <td><a href={link}>{x[c]}</a></td>;
+        // simple cell
+        } else {
+          return <td>{x[c]}</td>;
+        }
       }, this);
     }.bind(this);
 

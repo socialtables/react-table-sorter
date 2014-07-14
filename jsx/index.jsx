@@ -1,7 +1,23 @@
 var TableSorter = require("./table-sorter/table-sorter.jsx");
 var DataTools = require("./data-tools/data-tools.jsx")
 
+
+// Sample config object
+var config = {
+  sort: { column: "hexValue", order: "asc" },
+  columns: {
+    colorName: { name: "Color Name", filterText: "", defaultSortOrder: "asc"},
+    hexValue: { name: "Hex Value", filterText: "", defaultSortOrder: "asc", link: "/color?hex={cell}"},
+  }
+};
+
 var App = React.createClass({
+  getInitialState: function() {
+    return {source: this.props.source};
+  },
+  handleSourceChange: function(source) {
+    this.setState({source: source});
+  },
   render: function() {
     return (
       <div>
@@ -13,21 +29,6 @@ var App = React.createClass({
 });
 
 var app = document.getElementById('app');
-React.renderComponent(<App TableSorter="/testing" config="hello"/>, app);
 
 
-
-// Sample config object
-// var CONFIG = {
-//   sort: { column: "id", order: "asc" },
-//   columns: {
-//     first_name: { name: "First Name", filterText: "", defaultSortOrder: "asc"},
-//     last_name: { name: "Last Name", filterText: "", defaultSortOrder: "asc"},
-//     id: { name: "id", filterText: "", defaultSortOrder: "asc", link: "/editUser?user={cell}"},
-//     parent_team_id: { name: "Parent Team ID", filterText: "", defaultSortOrder: "asc"},
-//     team_role: { name: "Team Role", filterText: "", defaultSortOrder: "asc"},
-//     lastLoginStr: { name: "Last Login", filterText: "", defaultSortOrder: "asc"},
-//     eventCount: { name: "eventCount", filterText: "", defaultSortOrder: "asc"},
-//     objectAverage: { name: "numObjects", filterText: "", defaultSortOrder: "asc"}
-//   }
-// };
+React.renderComponent(<App source="json/colors.json" config={config}/>, app);

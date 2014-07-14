@@ -38,7 +38,23 @@ var DataTools = module.exports = React.createClass({displayName: 'exports',
 /** @jsx React.DOM */var TableSorter = require("./table-sorter/table-sorter.jsx");
 var DataTools = require("./data-tools/data-tools.jsx")
 
+
+// Sample config object
+var config = {
+  sort: { column: "hexValue", order: "asc" },
+  columns: {
+    colorName: { name: "Color Name", filterText: "", defaultSortOrder: "asc"},
+    hexValue: { name: "Hex Value", filterText: "", defaultSortOrder: "asc", link: "/color?hex={cell}"},
+  }
+};
+
 var App = React.createClass({displayName: 'App',
+  getInitialState: function() {
+    return {source: this.props.source};
+  },
+  handleSourceChange: function(source) {
+    this.setState({source: source});
+  },
   render: function() {
     return (
       React.DOM.div(null, 
@@ -50,24 +66,9 @@ var App = React.createClass({displayName: 'App',
 });
 
 var app = document.getElementById('app');
-React.renderComponent(App( {TableSorter:"/testing", config:"hello"}), app);
 
 
-
-// Sample config object
-// var CONFIG = {
-//   sort: { column: "id", order: "asc" },
-//   columns: {
-//     first_name: { name: "First Name", filterText: "", defaultSortOrder: "asc"},
-//     last_name: { name: "Last Name", filterText: "", defaultSortOrder: "asc"},
-//     id: { name: "id", filterText: "", defaultSortOrder: "asc", link: "/editUser?user={cell}"},
-//     parent_team_id: { name: "Parent Team ID", filterText: "", defaultSortOrder: "asc"},
-//     team_role: { name: "Team Role", filterText: "", defaultSortOrder: "asc"},
-//     lastLoginStr: { name: "Last Login", filterText: "", defaultSortOrder: "asc"},
-//     eventCount: { name: "eventCount", filterText: "", defaultSortOrder: "asc"},
-//     objectAverage: { name: "numObjects", filterText: "", defaultSortOrder: "asc"}
-//   }
-// };
+React.renderComponent(App( {source:"json/colors.json", config:config}), app);
 },{"./data-tools/data-tools.jsx":1,"./table-sorter/table-sorter.jsx":3}],3:[function(require,module,exports){
 /** @jsx React.DOM */// TableSorter React Component
 var TableSorter = module.exports = React.createClass({displayName: 'exports',
@@ -140,7 +141,6 @@ var TableSorter = module.exports = React.createClass({displayName: 'exports',
       if (filterText.length > 0) { 
         operandMatch = operandRegex.exec(filterText);
         if (operandMatch && operandMatch.length == 3) {
-          //filters[column] = Function.apply(null, ["x", "return x " + operandMatch[1] + " " + operandMatch[2]]);
           filters[column] = function(match) { return function(x) { return operators[match[1]](x, match[2]); }; }(operandMatch); 
         } else {
           filters[column] = function(x) {
@@ -156,6 +156,7 @@ var TableSorter = module.exports = React.createClass({displayName: 'exports',
       }, this);
     }, this);
 
+    // TODO: items with custom defined links in the data do not filter/sort
     var sortedItems = _.sortBy(filteredItems, this.state.sort.column);
     if (this.state.sort.order === "desc") sortedItems.reverse();
 
@@ -167,7 +168,17 @@ var TableSorter = module.exports = React.createClass({displayName: 'exports',
 
     var cell = function(x) {
       return columnNames.map(function(c) {
-        return React.DOM.td(null, x[c]);
+        //custom link defined in data
+        if (typeof x[c] == "object" && x[c] !== null && x[c].text !== null){
+          return React.DOM.td(null, React.DOM.a( {href:x[c].link}, x[c].text));
+        // link defined in config for entire column
+        } else if (this.props.config.columns[c].link) {
+         var link = this.props.config.columns[c].link.replace("{cell}", x[c]);
+          return React.DOM.td(null, React.DOM.a( {href:link}, x[c]));
+        // simple cell
+        } else {
+          return React.DOM.td(null, x[c]);
+        }
       }, this);
     }.bind(this);
 
