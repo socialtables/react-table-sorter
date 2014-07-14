@@ -1,9 +1,17 @@
 {
   "name": "react-table-sorter",
   "version": "0.0.0",
-  "description": "A demo that implements a sortable table component using [Facebook's React](http://facebook.github.io/react/).",
+  "description": "A sortable table component using [Facebook's React](http://facebook.github.io/react/).",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "lodash": "~2.4.1",
+    "envify": "~1.2.1",
+    "react": "~0.10.0",
+    "react-tools": "~0.10.0",
+    "reactify": "~0.13.1",
+    "browserify": "~4.2.0"
+  },
   "devDependencies": {
     "mocha": "~1.20.1"
   },

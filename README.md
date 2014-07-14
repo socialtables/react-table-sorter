@@ -1,6 +1,6 @@
 # A React.js Table Sorter Component #
 
-A demo that implements a sortable table component using [Facebook's React](http://facebook.github.io/react/).  
+A sortable table component using [Facebook's React](http://facebook.github.io/react/).  
 
 Features:
 
@@ -10,6 +10,9 @@ Features:
 - Repeatable headers
 
 [View the running demo](http://bgerm.github.io/react-table-sorter-demo/).
+
+## Usage ##
+Sortable Table takes two arguments, `source` and `config`. `source` is a string designating the path to a JSON formatted data source and `config` is a JavaScript object containing information about the structure of the table.
 
 ## Example ##
 
@@ -25,10 +28,6 @@ Features:
     React.renderComponent(<TableSorter dataSource="/api/data.json" config={CONFIG} headerRepeat="5" />, document.getElementById("table-sorter"));
 
 ## Running the Demo ##
-
-The demo uses an in-browser JSX Transformer; therfore, the code cannot be
-run without a web server (or your browser will complain that "Cross origin
-requests are only supported for HTTP").
 
 [node-static](https://github.com/cloudhead/node-static) is a quick solution.
 
