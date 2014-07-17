@@ -1,51 +1,16 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/** @jsx React.DOM *//* Here we create a two selects to control the remote data source of the 
- * TableSorter component. The purpose of this is to show how to control a 
- * component with another component.
- */
-var DataTools = module.exports = React.createClass({displayName: 'exports',
-  handleSourceChange: function(event) {
-    this.props.onSourceChange({
-      source: event.target.value,
-      limit: this.props.source.limit
-    });
-  },
-  handleLimitChange: function(event) {
-    this.props.onSourceChange({
-      source: this.props.source.source,
-      limit: event.target.value
-    });
-  },
-  render: function() {
-    return (
-      React.DOM.div( {id:"tools"}, 
-        React.DOM.strong(null, "Source:"), 
-        React.DOM.select( {onChange:this.handleSourceChange, value:this.props.source.source}, 
-          React.DOM.option( {value:"source1"}, "Source 1"),
-          React.DOM.option( {value:"source2"}, "Source 2")
-        ),
-
-        React.DOM.strong(null, "Limit:"), 
-        React.DOM.select( {onChange:this.handleLimitChange, value:this.props.source.limit}, 
-          React.DOM.option( {value:"10"}, "10"),
-          React.DOM.option( {value:"200"}, "200")
-        )
-      )
-    );
-  }
-});
-},{}],2:[function(require,module,exports){
+;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /** @jsx React.DOM */var TableSorter = require("./table-sorter/table-sorter.jsx");
-var DataTools = require("./data-tools/data-tools.jsx")
+//var DataTools = require("./data-tools/data-tools.jsx")
 
 
 // Sample config object
 var config = {
-  sort: { column: "hexValue", order: "asc" },
-  columns: {
-    colorName: { name: "Color Name", filterText: "", defaultSortOrder: "asc"},
-    hexValue: { name: "Hex Value", filterText: "", defaultSortOrder: "asc", link: "/color?hex={cell}"},
-  }
+	sort: { column: "hexValue", order: "asc" },
+	columns: {
+		colorName: { name: "Color Name", filterText: "", defaultSortOrder: "asc"},
+		hexValue: { name: "Hex Value", filterText: "", defaultSortOrder: "asc", link: "/color?hex={cell}"},
+		red: { name: "Red", filterText: "", defaultSortOrder: "asc"}
+	}
 };
 
 var App = React.createClass({displayName: 'App',
@@ -58,7 +23,6 @@ var App = React.createClass({displayName: 'App',
   render: function() {
     return (
       React.DOM.div(null, 
-        DataTools( {onSourceChange:this.handleSourceChange, source:this.state.source} ),
         TableSorter( {dataSource:this.state.source, config:this.props.config, headerRepeat:"5"} )
       )
     );
@@ -69,7 +33,7 @@ var app = document.getElementById('app');
 
 
 React.renderComponent(App( {source:"json/colors.json", config:config}), app);
-},{"./data-tools/data-tools.jsx":1,"./table-sorter/table-sorter.jsx":3}],3:[function(require,module,exports){
+},{"./table-sorter/table-sorter.jsx":2}],2:[function(require,module,exports){
 /** @jsx React.DOM */// TableSorter React Component
 var TableSorter = module.exports = React.createClass({displayName: 'exports',
   getInitialState: function() {
@@ -92,6 +56,13 @@ var TableSorter = module.exports = React.createClass({displayName: 'exports',
     if (!dataSource) return;
 
     $.get(dataSource).done(function(data) {
+      data.forEach(function(item){
+        for (var key in item) {
+          if(typeof item[key] !== 'object') {
+            item[key] = {"text":item[key]}
+          }
+        }
+      });
       console.log("Received data");
       this.setState({items: data});
     }.bind(this)).fail(function(error, a, b) {
@@ -152,12 +123,14 @@ var TableSorter = module.exports = React.createClass({displayName: 'exports',
     
     var filteredItems = _.filter(this.state.items, function(item) {
       return _.every(columnNames, function(c) {
-        return (!filters[c] || filters[c](item[c]));
+        return (!filters[c] || filters[c](item[c].text));
       }, this);
     }, this);
 
-    // TODO: items with custom defined links in the data do not filter/sort
-    var sortedItems = _.sortBy(filteredItems, this.state.sort.column);
+    var sortedItems = _.sortBy(filteredItems, function(item) {
+      return item[this.state.sort.column].text;
+    }, this);
+
     if (this.state.sort.order === "desc") sortedItems.reverse();
 
     var headerExtra = function() {
@@ -169,15 +142,15 @@ var TableSorter = module.exports = React.createClass({displayName: 'exports',
     var cell = function(x) {
       return columnNames.map(function(c) {
         //custom link defined in data
-        if (typeof x[c] == "object" && x[c] !== null && x[c].text !== null){
+        if (x[c].link){
           return React.DOM.td(null, React.DOM.a( {href:x[c].link}, x[c].text));
         // link defined in config for entire column
         } else if (this.props.config.columns[c].link) {
-         var link = this.props.config.columns[c].link.replace("{cell}", x[c]);
+         var link = this.props.config.columns[c].link.replace("{cell}", x[c].text);
           return React.DOM.td(null, React.DOM.a( {href:link}, x[c]));
         // simple cell
         } else {
-          return React.DOM.td(null, x[c]);
+          return React.DOM.td(null, x[c].text);
         }
       }, this);
     }.bind(this);
@@ -245,4 +218,5 @@ var operators = {
   ">=": function(x, y) { return x >= y; },
   "==": function(x, y) { return x == y; }
 };
-},{}]},{},[2])
+},{}]},{},[1])
+;
