@@ -1,6 +1,6 @@
 # A React.js Table Sorter Component #
 
-A sortable table component using [Facebook's React](http://facebook.github.io/react/).  
+React Table Sorter takes JSON or Javascript arrays as well as a config object and creates a sortable table component using [Facebook's React](http://facebook.github.io/react/).  
 
 Features:
 
@@ -9,33 +9,26 @@ Features:
 - Filterable columns
 - Repeatable headers
 
-[View the running demo](http://bgerm.github.io/react-table-sorter-demo/).
+This module has been adapted from the [demo](http://bgerm.github.io/react-table-sorter-demo/) created by [Bryan Germann](https://github.com/bgerm) to work with npm and to add flexibility during configuration.
+
+## Installation ##
+
+TODO: Install instructions will be added once complete.
 
 ## Usage ##
-Sortable Table takes two arguments, `source` and `config`. `source` is a string designating the path to a JSON formatted data source and `config` is a JavaScript object containing information about the structure of the table.
+Sortable Table takes two arguments, `source` and `config`. `source` is a string designating the path to a JSON array formatted data source and `config` is a JavaScript object containing information about the structure of the table.
 
 ## Example ##
 
-    var CONFIG = {
-      sort: { column: "col2", order: "desc" },
+    var TableSorter = require("TableSorter");
+
+    var config = {
+      sort: { column: "hexValue", order: "asc" },
       columns: {
-        col1: { name: "Col1", filterText: "", defaultSortOrder: "desc"},
-        col2: { name: "Col2", filterText: "", defaultSortOrder: "desc"},
-        col3: { name: "Col3", filterText: "", defaultSortOrder: "desc"}
+        colorName: { name: "Color Name", filterText: "", defaultSortOrder: "asc"},
+        hexValue: { name: "Hex Value", filterText: "", defaultSortOrder: "asc", link: "/color?hex={cell}"},
+        red: { name: "Red", filterText: "", defaultSortOrder: "asc"}
       }
     };
-
+    
     React.renderComponent(<TableSorter dataSource="/api/data.json" config={CONFIG} headerRepeat="5" />, document.getElementById("table-sorter"));
-
-## Running the Demo ##
-
-[node-static](https://github.com/cloudhead/node-static) is a quick solution.
-
-    npm install -g node-static
-    static
-
-And now view at: [http://localhost:8080/](http://localhost:8080/).
-
-## Screenshots ##
-
-[![Demo Screenshot](http://i.imgur.com/vy5sMuW.png)](http://bgerm.github.io/react-table-sorter-demo/)

@@ -1,3 +1,7 @@
+var React = require('react/addons');
+// var _ = require("lodash");
+// var $ = require("jquery");
+
 // TableSorter React Component
 var TableSorter = module.exports = React.createClass({
   getInitialState: function() {
@@ -20,7 +24,14 @@ var TableSorter = module.exports = React.createClass({
     if (!dataSource) return;
 
     $.get(dataSource).done(function(data) {
-      console.log("Received data");
+      data.forEach(function(item){
+        for (var key in item) {
+          if(typeof item[key] !== 'object') {
+            item[key] = {"text":item[key]}
+          }
+        }
+      });
+      console.log("Received data",data);
       this.setState({items: data});
     }.bind(this)).fail(function(error, a, b) {
       console.log("Error loading JSON");
@@ -80,12 +91,15 @@ var TableSorter = module.exports = React.createClass({
     
     var filteredItems = _.filter(this.state.items, function(item) {
       return _.every(columnNames, function(c) {
-        return (!filters[c] || filters[c](item[c]));
+        return (!filters[c] || filters[c](item[c].text));
       }, this);
     }, this);
 
     // TODO: items with custom defined links in the data do not filter/sort
-    var sortedItems = _.sortBy(filteredItems, this.state.sort.column);
+    var sortedItems = _.sortBy(filteredItems, function(item){
+      return item[this.state.sort.column].text;
+    }, this);
+    
     if (this.state.sort.order === "desc") sortedItems.reverse();
 
     var headerExtra = function() {
@@ -97,15 +111,15 @@ var TableSorter = module.exports = React.createClass({
     var cell = function(x) {
       return columnNames.map(function(c) {
         //custom link defined in data
-        if (typeof x[c] == "object" && x[c] !== null && x[c].text !== null){
+        if (x[c].link){
           return <td><a href={x[c].link}>{x[c].text}</a></td>;
         // link defined in config for entire column
         } else if (this.props.config.columns[c].link) {
-         var link = this.props.config.columns[c].link.replace("{cell}", x[c]);
+         var link = this.props.config.columns[c].link.replace("{cell}", x[c].text);
           return <td><a href={link}>{x[c]}</a></td>;
         // simple cell
         } else {
-          return <td>{x[c]}</td>;
+          return <td>{x[c].text}</td>;
         }
       }, this);
     }.bind(this);
@@ -162,8 +176,6 @@ var TableSorter = module.exports = React.createClass({
     );
   }
 });
-
-
 
 // Inequality function map for the filtering
 var operators = {

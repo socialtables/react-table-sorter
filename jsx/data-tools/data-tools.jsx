@@ -1,3 +1,8 @@
+/**
+ * @jsx React.DOM
+ */
+var React = require('react/addons');
+
 /* Here we create a two selects to control the remote data source of the 
  * TableSorter component. The purpose of this is to show how to control a 
  * component with another component.
