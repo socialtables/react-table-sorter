@@ -2,16 +2,13 @@
   "name": "react-table-sorter",
   "version": "0.0.0",
   "description": "A sortable table component using [Facebook's React](http://facebook.github.io/react/).",
-  "main": "index.js",
+  "main": "lib/index.js",
   "dependencies": {
     "lodash": "~2.4.1",
-    "envify": "~1.2.1",
     "react": "~0.10.0",
     "react-tools": "~0.10.0",
     "reactify": "~0.13.1",
-    "browserify": "~4.2.0",
-    "mocha": "~1.20.1",
-    "jsdom": "~0.11.1"
+    "browserify": "~4.2.0"
   },
   "devDependencies": {
     "jest-cli": "~0.1.17"
@@ -20,7 +17,7 @@
     "test": "jest"
   },
   "jest": {
-    "scriptPreprocessor": "test/preprocessor.js",
+    "scriptPreprocessor": "preprocessor.js",
     "unmockedModulePathPatterns": ["node_modules/react"]
   },
   "repository": {

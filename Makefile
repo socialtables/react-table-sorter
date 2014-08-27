@@ -1,20 +1,23 @@
 ## Variables
-INDEX_JS = js/index.js
-JSX_SRC_DIR = jsx
-INDEX_JSX = jsx/index.js
+INDEX_JS = lib/index.js
+JSX_SRC_DIR = src
+INDEX_JSX = src/index.js
+
+EXAMPLE_JSX = example/src/index.js
+EXAMPLE_JS = example/index.js
 
 JSX_DEPENDENCIES = $(shell find $(JSX_SRC_DIR) -name "*.js")
 
 # Tasks
-all: js
+all: build
 
-js: $(INDEX_JS)
+build: $(INDEX_JS)
 
 
 ## Recipes
 $(INDEX_JS): $(JSX_DEPENDENCIES)
-	./node_modules/.bin/browserify -t reactify $(INDEX_JSX) > $(INDEX_JS)
-	./node_modules/.bin/browserify -t reactify jsx/table-sorter/table-sorter.js > js/table-sorter/table-sorter.js
+	./node_modules/.bin/jsx $(INDEX_JSX) > $(INDEX_JS)
+	./node_modules/.bin/browserify -t reactify $(EXAMPLE_JSX) > $(EXAMPLE_JS)
 
 ## Cleanup task
 clean:

@@ -1,0 +1,36 @@
+[{
+        "colorName":{"text":"red", "link":"/custom-link-for-red"},
+        "hexValue":{"text":"#f00", "link":"/custom-link-for-red-hex-value"},
+        "red":255
+    },
+    {
+        "colorName":"green",
+        "hexValue":"#0f0",
+        "red":0
+    },
+    {
+        "colorName":"blue",
+        "hexValue":"#00f",
+        "red":0
+    },
+    {
+        "colorName":"cyan",
+        "hexValue":"#0ff",
+        "red":0
+    },
+    {
+        "colorName":"magenta",
+        "hexValue":"#f0f",
+        "red":255
+    },
+    {
+        "colorName":"yellow",
+        "hexValue":"#ff0",
+        "red":255
+    },
+    {
+        "colorName":"black",
+        "hexValue":"#000",
+        "red":0
+    }
+]

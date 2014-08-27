@@ -1,6 +1,9 @@
 # A React.js Table Sorter Component #
 
-A sortable table component using [Facebook's React](http://facebook.github.io/react/).  
+A sortable table component using [Facebook's React](http://facebook.github.io/react/). Build out as a reusable component from the demo made by [bgerm](https://github.com/bgerm).
+
+[View the demo repo](https://github.com/bgerm/react-table-sorter-demo).
+[View the running demo](http://bgerm.github.io/react-table-sorter-demo/).
 
 Features:
 
@@ -8,8 +11,6 @@ Features:
 - Sortable columns
 - Filterable columns
 - Repeatable headers
-
-[View the running demo](http://bgerm.github.io/react-table-sorter-demo/).
 
 ## Usage ##
 Sortable Table takes two arguments, `source` and `config`. `source` is a string designating the path to a JSON formatted data source and `config` is a JavaScript object containing information about the structure of the table.
