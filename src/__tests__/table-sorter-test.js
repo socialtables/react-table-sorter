@@ -1,9 +1,9 @@
 /** @jsx React.DOM */
-jest.dontMock('../table-sorter.js');
+jest.dontMock('../index.js');
 describe('CheckboxWithLabel', function() {
   it('changes the text after click', function() {
     var React = require('react/addons');
-    var TableSorter = require('../table-sorter.js');
+    var TableSorter = require('../index.js');
     var TestUtils = React.addons.TestUtils;
 
     // Sample config object
