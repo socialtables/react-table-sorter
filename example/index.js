@@ -51,7 +51,7 @@ var TableSorter = module.exports = React.createClass({displayName: 'exports',
     this.loadData(this.props.dataSource, this.props.data);
   },
   loadData: function(dataSource, data) {
-    if (dataSource){
+    if (!data){
       request = new XMLHttpRequest();
       request.open('GET', dataSource, true);
 
@@ -81,13 +81,17 @@ var TableSorter = module.exports = React.createClass({displayName: 'exports',
       };
 
       request.send();
-    } else if(data){
-      this.setState({items: data});
     } else{
-      return;
-    }
-
-   
+      console.log(data);
+      data.forEach(function(item){
+      for (var key in item) {
+          if(typeof item[key] !== 'object') {
+            item[key] = {"text":item[key]}
+          }
+        }
+      });
+      this.setState({items: data});
+   }
   },
   handleFilterTextChange: function(column) {
     return function(newValue) {
@@ -156,9 +160,7 @@ var TableSorter = module.exports = React.createClass({displayName: 'exports',
       }, this);
     }, this);
 
-    var sortedItems = _.sortBy(filteredItems, function(item) {
-      return item[this.state.sort.column].text;
-    }, this);
+    var sortedItems = _.sortBy(filteredItems, this.state.sort.column);
 
     if (this.state.sort.order === "desc") sortedItems.reverse();
 
