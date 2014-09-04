@@ -3,6 +3,7 @@
 A sortable table component using [Facebook's React](http://facebook.github.io/react/). Build out as a reusable component from the demo made by [bgerm](https://github.com/bgerm).
 
 [View the demo repo](https://github.com/bgerm/react-table-sorter-demo).
+
 [View the running demo](http://bgerm.github.io/react-table-sorter-demo/).
 
 Features:
@@ -30,13 +31,9 @@ Sortable Table takes two arguments, `source` and `config`. `source` is a string 
 
 ## Running the Demo ##
 
-[node-static](https://github.com/cloudhead/node-static) is a quick solution.
+[lute](https://github.com/wearefractal/lute) is a quick solution.
 
-    npm install -g node-static
-    static
+    npm install -g lute
+    lute
 
-And now view at: [http://localhost:8080/](http://localhost:8080/).
-
-## Screenshots ##
-
-[![Demo Screenshot](http://i.imgur.com/vy5sMuW.png)](http://bgerm.github.io/react-table-sorter-demo/)
+And now view at: [http://localhost:8080/example](http://localhost:8080/example).
