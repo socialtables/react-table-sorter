@@ -18,40 +18,46 @@ var TableSorter = module.exports = React.createClass({
     }
   },
   componentWillMount: function() {
-    this.loadData(this.props.dataSource);
+    this.loadData(this.props.dataSource, this.props.data);
   },
-  loadData: function(dataSource) {
-    if (!dataSource) return;
+  loadData: function(dataSource, data) {
+    if (dataSource){
+      request = new XMLHttpRequest();
+      request.open('GET', dataSource, true);
 
-    request = new XMLHttpRequest();
-    request.open('GET', dataSource, true);
-
-    request.onload = function() {
-      if (request.status >= 200 && request.status < 400){
-        // Success!
-        data = JSON.parse(request.responseText);
-        console.log(data);
-        data.forEach(function(item){
-        for (var key in item) {
-            if(typeof item[key] !== 'object') {
-              item[key] = {"text":item[key]}
+      request.onload = function() {
+        if (request.status >= 200 && request.status < 400){
+          // Success!
+          data = JSON.parse(request.responseText);
+          console.log(data);
+          data.forEach(function(item){
+          for (var key in item) {
+              if(typeof item[key] !== 'object') {
+                item[key] = {"text":item[key]}
+              }
             }
-          }
-        });
-        console.log("Received data");
-        this.setState({items: data});
-      } else {
-        // We reached our target server, but it returned an error
-        console.log("Error loading JSON");
-      }
-    }.bind(this);
+          });
+          console.log("Received data");
+          this.setState({items: data});
+        } else {
+          // We reached our target server, but it returned an error
+          console.log("Error loading JSON");
+        }
+      }.bind(this);
 
-    request.onerror = function() {
-      // There was a connection error of some sort
-      console.log("Connection error. Could not retrieve JSON");
-    };
+      request.onerror = function() {
+        // There was a connection error of some sort
+        console.log("Connection error. Could not retrieve JSON");
+      };
 
-    request.send();
+      request.send();
+    } else if(data){
+      this.setState({items: data});
+    } else{
+      return;
+    }
+
+   
   },
   handleFilterTextChange: function(column) {
     return function(newValue) {
