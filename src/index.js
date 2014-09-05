@@ -13,8 +13,8 @@ var TableSorter = module.exports = React.createClass({
   },
   componentWillReceiveProps: function(nextProps) {
     // Load new data when the dataSource property changes.
-    if (nextProps.dataSource != this.props.dataSource) {
-      this.loadData(nextProps.dataSource);
+    if (nextProps.dataSource != this.props.dataSource || nextProps.data != this.props.data) {
+      this.loadData(nextProps.dataSource, nextProps.data);
     }
   },
   componentWillMount: function() {
