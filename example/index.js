@@ -187,6 +187,7 @@ var TableSorter = module.exports = React.createClass({displayName: 'exports',
       }, this);
     }.bind(this);
 
+    var keyIndex = 0;
     sortedItems.forEach(function(item, idx) {
       var headerRepeat = parseInt(this.props.headerRepeat, 10);
       if ((this.props.headerRepeat > 0) && 
@@ -194,17 +195,18 @@ var TableSorter = module.exports = React.createClass({displayName: 'exports',
           (idx % this.props.headerRepeat === 0)) {
 
           rows.push (
-            React.DOM.tr(null, 
+            React.DOM.tr( {key:"header-"+keyIndex}, 
                headerExtra() 
             )
           )
       }
 
       rows.push(
-        React.DOM.tr( {key:item.id}, 
+        React.DOM.tr( {key:keyIndex}, 
            cell(item) 
         )
       );
+      keyIndex++;
     }.bind(this));
 
     var filterLink = function(column) {
