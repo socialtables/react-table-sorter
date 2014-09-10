@@ -56,7 +56,7 @@ var TableSorter = module.exports = React.createClass({
       console.log(data);
       data.forEach(function(item){
       for (var key in item) {
-          if(typeof item[key] !== 'object') {
+          if(typeof item[key] !== 'object' || item[key].props) {
             item[key] = {"text":item[key]}
           }
         }
