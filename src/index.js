@@ -99,8 +99,7 @@ var TableSorter = module.exports = React.createClass({
     var cell = function(x) {
       return columnNames.map(function(c) {
         	// simple cell
-          return <td>{x[c]}</td>;
-        }
+        	return <td>{x[c]}</td>;
       }, this);
     }.bind(this);
 
