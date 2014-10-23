@@ -59,7 +59,6 @@ var TableSorter = module.exports = React.createClass({displayName: 'exports',
         if (request.status >= 200 && request.status < 400){
           // Success!
           data = JSON.parse(request.responseText);
-          console.log(data);
           data.forEach(function(item){
           for (var key in item) {
               // allows text or react components
@@ -83,10 +82,9 @@ var TableSorter = module.exports = React.createClass({displayName: 'exports',
 
       request.send();
     } else{
-      console.log(data);
       data.forEach(function(item){
       for (var key in item) {
-          if(typeof item[key] !== 'object' || item[key].props) {
+          if(typeof item[key] !== 'object' || (item[key] && item[key].props) ) {
             item[key] = {"text":item[key]}
           }
         }
