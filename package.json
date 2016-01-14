@@ -7,8 +7,7 @@
     "babel": "^6.3.26",
     "lodash": "~2.4.1",
     "react": "~0.14.6",
-    "react-dom": "~0.14.6",
-    "react-tools": "~0.11.1"
+    "react-dom": "~0.14.6"
   },
   "devDependencies": {
     "browserify": "~4.2.0",
