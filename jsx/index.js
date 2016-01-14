@@ -1,6 +1,6 @@
-/** @jsx React.DOM */
-var TableSorter = require("./table-sorter/table-sorter.js");
-var React = require("react");
+import React from "react";
+import ReactDOM from "react-dom";
+import TableSorter from "./table-sorter/table-sorter.js";
 
 
 
@@ -14,7 +14,7 @@ var config = {
 	}
 };
 
-var App = React.createClass({
+class App extends React.Component {
   render: function() {
     return (
       <div>
@@ -22,9 +22,9 @@ var App = React.createClass({
       </div>
     );
   }
-});
+};
 
 var app = document.getElementById('app');
 
 
-React.renderComponent(<App source="json/colors.json" config={config}/>, app);
+ReactDOM.render(<App source="json/colors.json" config={config}/>, app);
