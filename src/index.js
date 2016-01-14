@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 var React = require("react");
 var _ = require("lodash");
 
@@ -141,7 +140,7 @@ var TableSorter = module.exports = React.createClass({
 
     var headerExtra = function() {
       return columnNames.map(function(c) {
-        return <th className="header-extra">{this.state.columns[c].name}</th>;
+        return (<th className="header-extra">{this.state.columns[c].name}</th>);
       }, this);   
     }.bind(this);
 
@@ -215,6 +214,3 @@ var TableSorter = module.exports = React.createClass({
     );
   }
 });
-
-
-
