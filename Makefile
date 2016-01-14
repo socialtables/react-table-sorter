@@ -16,7 +16,7 @@ build: $(INDEX_JS)
 
 ## Recipes
 $(INDEX_JS): $(JSX_DEPENDENCIES)
-	./node_modules/.bin/jsx $(INDEX_JSX) > $(INDEX_JS)
+	./node_modules/.bin/babel -d $(INDEX_JSX) > $(INDEX_JS)
 	./node_modules/.bin/browserify -t reactify $(EXAMPLE_JSX) > $(EXAMPLE_JS)
 
 ## Cleanup task
