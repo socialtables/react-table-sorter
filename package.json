@@ -1,6 +1,6 @@
 {
   "name": "react-table-sorter",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A sortable table component using [Facebook's React](http://facebook.github.io/react/).",
   "main": "lib/index.js",
   "dependencies": {
