@@ -1,22 +1,24 @@
 // TableSorter React Component
-var TableSorter = module.exports = React.createClass({
-  getInitialState: function() {
-    return {
+export default class TableSorter extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
       items: this.props.initialItems || [],
       sort: this.props.config.sort || { column: "", order: "" },
       columns: this.props.config.columns
     };
-  },
-  componentWillReceiveProps: function(nextProps) {
+  }
+  componentWillReceiveProps(nextProps) {
     // Load new data when the dataSource property changes.
     if (nextProps.dataSource != this.props.dataSource) {
       this.loadData(nextProps.dataSource);
     }
-  },
-  componentWillMount: function() {
+  }
+  componentWillMount() {
     this.loadData(this.props.dataSource);
-  },
-  loadData: function(dataSource) {
+  }
+  loadData(dataSource) {
     if (!dataSource) return;
 
     $.get(dataSource).done(function(data) {
@@ -32,8 +34,8 @@ var TableSorter = module.exports = React.createClass({
     }.bind(this)).fail(function(error, a, b) {
       console.log("Error loading JSON");
     });
-  },
-  handleFilterTextChange: function(column) {
+  }
+  handleFilterTextChange(column) {
     return function(newValue) {
       var obj = this.state.columns;
       obj[column].filterText = newValue;
@@ -42,11 +44,11 @@ var TableSorter = module.exports = React.createClass({
       // Ideally we'd copy and setState or use an immutable data structure.
       this.forceUpdate();
     }.bind(this);
-  },
-  columnNames: function() {
+  }
+  columnNames() {
      return Object.keys(this.state.columns); 
-  },
-  sortColumn: function(column) {
+  }
+  sortColumn(column) {
     return function(event) {
       var newSortOrder = (this.state.sort.order == "asc") ? "desc" : "asc";
 
@@ -56,12 +58,12 @@ var TableSorter = module.exports = React.createClass({
 
       this.setState({sort: { column: column, order: newSortOrder }});
     }.bind(this);
-  },
-  sortClass: function(column) {
+  }
+  sortClass(column) {
     var ascOrDesc = (this.state.sort.order == "asc") ? "headerSortAsc" : "headerSortDesc";
     return (this.state.sort.column == column) ? ascOrDesc : "";
-  },
-  render: function() {
+  }
+  render() {
     var rows = [];
 
     var columnNames = this.columnNames();
@@ -170,7 +172,7 @@ var TableSorter = module.exports = React.createClass({
       </table>
     );
   }
-});
+};
 
 
 
