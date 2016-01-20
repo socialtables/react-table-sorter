@@ -139,23 +139,23 @@ var TableSorter = module.exports = React.createClass({
     if (this.state.sort.order === "desc") sortedItems.reverse();
 
     var headerExtra = function() {
-      return columnNames.map(function(c) {
-        return (<th className="header-extra">{this.state.columns[c].name}</th>);
+      return columnNames.map(function(c, i) {
+        return (<th key={"header-extra-" + i} className="header-extra">{this.state.columns[c].name}</th>);
       }, this);   
     }.bind(this);
 
     var cell = function(x) {
-      return columnNames.map(function(c) {
+      return columnNames.map(function(c, i) {
         //custom link defined in data
         if (x[c].link){
-          return <td><a href={x[c].link}>{x[c].text}</a></td>;
+          return <td key={"cell-item-" + i} ><a href={x[c].link}>{x[c].text}</a></td>;
         // link defined in config for entire column
         } else if (this.props.config.columns[c].link) {
          var link = this.props.config.columns[c].link.replace("{cell}", x[c].text);
-          return <td><a href={link}>{x[c]}</a></td>;
+          return <td key={"cell-item-" + i} ><a href={link}>{x[c]}</a></td>;
         // simple cell
         } else {
-          return <td>{x[c].text}</td>;
+          return <td key={"cell-item-" + i} >{x[c].text}</td>;
         }
       }, this);
     }.bind(this);
@@ -168,7 +168,7 @@ var TableSorter = module.exports = React.createClass({
           (idx % this.props.headerRepeat === 0)) {
 
           rows.push (
-            <tr key={"header-"+keyIndex}>
+            <tr key={"header-" + keyIndex}>
               { headerExtra() }
             </tr>
           )
@@ -189,12 +189,12 @@ var TableSorter = module.exports = React.createClass({
       };
     }.bind(this);
 
-    var header = columnNames.map(function(c) {
-      return <th onClick={this.sortColumn(c)} className={"header " + this.sortClass(c)}>{this.state.columns[c].name}</th>;
+    var header = columnNames.map(function(c, i) {
+      return <th key={"filter-header-" + i} onClick={this.sortColumn(c)} className={"header " + this.sortClass(c)}>{this.state.columns[c].name}</th>;
     }, this);
 
-    var filterInputs = columnNames.map(function(c) {
-      return <td><input type="text" valueLink={filterLink(c)} /></td>;
+    var filterInputs = columnNames.map(function(c, i) {
+      return <td key={"filter-input-" + i} ><input type="text" valueLink={filterLink(c)} /></td>;
     }, this);
 
     return (
