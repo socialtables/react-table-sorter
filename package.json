@@ -5,8 +5,8 @@
   "main": "lib/index.js",
   "dependencies": {
     "lodash": "~2.4.1",
-    "react": "~0.11.1",
-    "react-tools": "~0.11.1"
+    "react": "~0.13.3",
+    "react-tools": "~0.13.3"
   },
   "devDependencies": {
     "browserify": "~4.2.0",
