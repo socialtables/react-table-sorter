@@ -1,5 +1,7 @@
+var React = require("react");
+var ReactDOM = require("react-dom");
 var TableSorter = require("./table-sorter/table-sorter.jsx");
-//var DataTools = require("./data-tools/data-tools.jsx")
+
 
 
 // Sample config object
@@ -31,4 +33,4 @@ var App = React.createClass({
 var app = document.getElementById('app');
 
 
-React.renderComponent(<App source="json/colors.json" config={config}/>, app);
+ReactDOM.render(<App source="json/colors.json" config={config}/>, app);

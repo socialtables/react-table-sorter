@@ -1,6 +1,7 @@
-/** @jsx React.DOM */
+
 var TableSorter = require("../../lib/index.js");
 var React = require("react");
+var ReactDOM = require("react-dom");
 
 // Sample config object
 var config = {
@@ -25,4 +26,4 @@ var App = React.createClass({
 var app = document.getElementById('app');
 
 
-React.renderComponent(<App source="./json/colors.json" config={config}/>, app);
+ReactDOM.render(<App source="./json/colors.json" config={config}/>, app);
