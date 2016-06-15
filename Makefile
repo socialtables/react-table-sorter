@@ -16,8 +16,8 @@ build: $(INDEX_JS)
 
 ## Recipes
 $(INDEX_JS): $(JSX_DEPENDENCIES)
-	./node_modules/.bin/babel --presets es2015,react $(INDEX_JSX) -o $(INDEX_JS)
-	./node_modules/.bin/browserify -t reactify $(EXAMPLE_JSX) > $(EXAMPLE_JS)
+	./node_modules/.bin/babel $(INDEX_JSX) -o $(INDEX_JS)
+	./node_modules/.bin/babel $(EXAMPLE_JSX) -o $(EXAMPLE_JS)
 
 ## Cleanup task
 clean:
