@@ -78,7 +78,7 @@ var TableSorter = module.exports = React.createClass({
     }.bind(this);
   },
   columnNames: function() {
-     return Object.keys(this.state.columns); 
+     return Object.keys(this.state.columns);
   },
   sortColumn: function(column) {
     return function(event) {
@@ -97,7 +97,7 @@ var TableSorter = module.exports = React.createClass({
   },
   render: function() {
     var rows = [];
-
+	var operandMatch;
     var columnNames = this.columnNames();
     var filters = {};
 
@@ -116,10 +116,10 @@ var TableSorter = module.exports = React.createClass({
       var filterText = this.state.columns[column].filterText;
       filters[column] = null;
 
-      if (filterText.length > 0) { 
+      if (filterText.length > 0) {
         operandMatch = operandRegex.exec(filterText);
         if (operandMatch && operandMatch.length == 3) {
-          filters[column] = function(match) { return function(x) { return operators[match[1]](x, match[2]); }; }(operandMatch); 
+          filters[column] = function(match) { return function(x) { return operators[match[1]](x, match[2]); }; }(operandMatch);
         } else {
           filters[column] = function(x) {
             return (x.toString().toLowerCase().indexOf(filterText.toLowerCase()) > -1);
@@ -127,7 +127,7 @@ var TableSorter = module.exports = React.createClass({
         }
       }
     }, this);
-    
+
     var filteredItems = _.filter(this.state.items, function(item) {
       return _.every(columnNames, function(c) {
         return (!filters[c] || filters[c](item[c].text));
@@ -141,7 +141,7 @@ var TableSorter = module.exports = React.createClass({
     var headerExtra = function() {
       return columnNames.map(function(c, i) {
         return (<th key={"header-extra-" + i} className="header-extra">{this.state.columns[c].name}</th>);
-      }, this);   
+      }, this);
     }.bind(this);
 
     var cell = function(x) {
@@ -163,7 +163,7 @@ var TableSorter = module.exports = React.createClass({
     var keyIndex = 0;
     sortedItems.forEach(function(item, idx) {
       var headerRepeat = parseInt(this.props.headerRepeat, 10);
-      if ((this.props.headerRepeat > 0) && 
+      if ((this.props.headerRepeat > 0) &&
           (idx > 0) &&
           (idx % this.props.headerRepeat === 0)) {
 
