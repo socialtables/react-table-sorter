@@ -97,7 +97,7 @@ var TableSorter = module.exports = React.createClass({
   },
   render: function() {
     var rows = [];
-	var operandMatch;
+
     var columnNames = this.columnNames();
     var filters = {};
 
@@ -111,6 +111,8 @@ var TableSorter = module.exports = React.createClass({
     };
 
     var operandRegex = /^((?:(?:[<>]=?)|==))\s?([-]?\d+(?:\.\d+)?)$/;
+
+    var operandMatch;
 
     columnNames.forEach(function(column) {
       var filterText = this.state.columns[column].filterText;
